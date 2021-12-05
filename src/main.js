@@ -13,6 +13,7 @@ const game = new Phaser.Game({
     pixelArt: false,
     scene: [
         BootScene,
+        SplashScene,
         GameScene
     ]
 })
