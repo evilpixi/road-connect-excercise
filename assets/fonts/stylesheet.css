@@ -1,0 +1,16 @@
+@font-face {
+    font-family: 'Nonstop';
+    src: url('subset-Nonstop.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: '222 03';
+    src: url('subset-a2203.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+

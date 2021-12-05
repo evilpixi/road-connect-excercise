@@ -10,12 +10,38 @@
             margin: 0px;
             padding: 0px;
         }
+
+        /* this is an easy way to load fonts in phaser */
+        @font-face {
+            font-family: 'nonstop';
+            src: url('./assets/fonts/NONSTOP.TTF') format('truetype');
+            font-weight: normal;
+            font-style: normal;
+            font-display: swap;
+        }
+
+        @font-face {
+            font-family: 'f22203';
+            src: url('./assets/fonts/subset-a2203.ttf') format('truetype');
+            font-weight: normal;
+            font-style: normal;
+            font-display: swap;
+        }
     </style>
 </head>
 
 <body>
+    <div id="font1" style="font-family: nonstop; opacity: 0;">lorem ipsum 1</div>
+    <div id="font2" style="font-family: f22203; opacity: 0;">lorem ipsum 2</div>
+    <script>
+        setTimeout(()=> {
+            font1.style.display = "none"
+            font2.style.display = "none"
+        }, 50)
+    </script>
+    
+    
     <div id="gamediv"></div>
-
     <script src="src/lib/phaser.js"></script>
     <script src="src/scenes/boot-scene.js"></script>
     <script src="src/scenes/game-scene.js"></script>

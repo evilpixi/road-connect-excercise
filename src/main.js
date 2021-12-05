@@ -1,5 +1,7 @@
 const gWidth = 480
-const gHeight = 1000
+const gHeight = (window.innerHeight / window.innerWidth) * gWidth
+
+console.log(gHeight)
 
 const game = new Phaser.Game({
     type: Phaser.WEBGL,
