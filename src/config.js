@@ -25,6 +25,9 @@ var config =
         },
         gameScene: {
             level: "Level"
+        },
+        endScene: {
+            end: "All\n\nLevels\n\nCleared!\n\n=)"
         }
     },
 

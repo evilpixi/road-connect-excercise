@@ -39,7 +39,7 @@ class GameScene extends Phaser.Scene {
 
         // --------------- check rotations --------------- 
         this.events.on("piecerotated", ()=> {
-            //if (this.isVictory()) this.scene.start("EndScene")
+            if (this.isVictory()) this.scene.start("EndScene")
         })
     }
 
@@ -56,17 +56,16 @@ class GameScene extends Phaser.Scene {
         let maxY = 0
 
         const size = config.game.pieceSize
-        const crop = config.game.pieceCropSize
 
-        for (let [i, pieceData] of levelData[this.level - 1].elements.entries())
+        for (let pieceData of levelData[this.level - 1].elements)
         {
             if (pieceData.x > maxX) maxX = pieceData.x
             if (pieceData.y > maxY) maxY = pieceData.y
 
             let piece = new Piece(
                 this,
-                pieceData.x * size - crop * i * 2,
-                pieceData.y * size - crop * i * 2,
+                pieceData.x * size - pieceData.x,
+                pieceData.y * size - pieceData.y,
                 PIECE_TYPES[pieceData.type],
                 pieceData.dir
             )

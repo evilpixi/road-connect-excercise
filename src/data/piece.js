@@ -31,10 +31,8 @@ class Piece extends Phaser.GameObjects.Sprite
         this.changeDirection(pieceDirection)
 
         const size = config.game.pieceSize
-        const crop = config.game.pieceCropSize
         this.setDisplaySize(size, size)
         this.cropSize = 1
-        //this.setCrop(crop, crop, size - crop * 2, size - crop * 2)
 
         // creation Tween
         let newScale = this.scale

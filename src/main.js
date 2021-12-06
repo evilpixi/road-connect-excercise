@@ -14,6 +14,7 @@ const game = new Phaser.Game({
         BootScene,
         SplashScene,
         LevelSelectScene,
-        GameScene
+        GameScene,
+        EndScene
     ]
 })

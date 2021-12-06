@@ -5,8 +5,7 @@ var levelData = [
             { type: "curve", x: 0, y: 0, dir: 0 },
             { type: "curve", x: 0, y: 1, dir: 0 },
             { type: "curve", x: 1, y: 0, dir: 0 },
-            { type: "curve", x: 1, y: 1, dir: 3 },
-            { type: "curve", x: 1, y: 2, dir: 2 },
+            { type: "curve", x: 1, y: 1, dir: 1 },
         ]
     },
     {

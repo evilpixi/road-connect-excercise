@@ -97,7 +97,7 @@ class BootScene extends Phaser.Scene {
     create()
     {
 
-        this.scene.start("LevelSelectionScene")
+        this.scene.start("GameScene", {level: 1})
 
         bgMusic = this.sound.add("music-bg")
         bgMusic.play()
