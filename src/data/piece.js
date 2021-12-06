@@ -34,9 +34,11 @@ class Piece extends Phaser.GameObjects.Sprite
         this.row = row
         this.col = col
         this.type = type
-
-        this.currentConnections = [...PIECE_TYPES[type].connections]
-
+        
+        this.currentConnections = []
+        for (let i of PIECE_TYPES[type].connections) {
+            this.currentConnections.push([...i])
+        }
         // clockwise, 0 is up
         this.neighbors = []
 
@@ -44,7 +46,6 @@ class Piece extends Phaser.GameObjects.Sprite
 
         const size = config.game.pieceSize
         this.setDisplaySize(size, size)
-        this.cropSize = 1
 
         // creation Tween
         let newScale = this.scale
@@ -75,15 +76,24 @@ class Piece extends Phaser.GameObjects.Sprite
      */
     updateConnections()
     {
-        for (let conn of this.currentConnections)
+        let newCons = []
+        for (let i of PIECE_TYPES[this.type].connections) {
+            newCons.push([...i])
+        }
+
+        for (let conn = 0; conn < newCons.length; conn++)
         {
-            conn[0] += this.dir
-            if (conn[0] > 3) conn[0] -= 4
+            newCons[conn][0] += this.dir
+            if (newCons[conn][0] > 3) 
+            newCons[conn][0] -= 4
 
             
-            conn[1] += this.dir
-            if (conn[1] > 3) conn[1] -= 4
+            newCons[conn][1] += this.dir
+            if (newCons[conn][1] > 3) 
+            newCons[conn][1] -= 4
         }
+
+        this.currentConnections = newCons
     }
 
 
@@ -97,7 +107,6 @@ class Piece extends Phaser.GameObjects.Sprite
      */
     changeDirection(direction = 0)
     {
-        console.log("direction: " + direction)
         this.dir = direction
         this.angle = 90 * this.dir
 
@@ -155,15 +164,36 @@ class Piece extends Phaser.GameObjects.Sprite
 const PIECE_TYPES = {
     "2": {
         name: "2curves",
-        connections: [ 0, 1, 2, 3 ]
+        connections: [
+            [0, 3],
+            [3, 0],
+            [1, 2],
+            [2, 1]
+        ]
     },
     "L": {
         name: "corner",
-        connections: [ 1, 2 ]
+        connections: [
+            [1, 2], 
+            [2, 1]
+        ]
     },
     "+": {
         name: "cross",
-        connections: [ 0, 1, 2, 3 ]
+        connections: [ 
+            [0, 1],
+            [0, 2],
+            [0, 3],
+            [1, 0],
+            [1, 2],
+            [1, 3],
+            [2, 0],
+            [2, 1],
+            [2, 3],
+            [3, 0],
+            [3, 1],
+            [3, 2],
+        ]
     },
     "c": {
         name: "curve",
@@ -174,14 +204,28 @@ const PIECE_TYPES = {
     },
     "|": {
         name: "rect",
-        connections: [ 0, 2 ]
+        connections: [
+            [0, 2],
+            [2, 0]
+        ]
     },
     "-": {
         name: "single",
-        connections: [ 1 ]
+        connections: [
+            [1, 1]
+        ]
     },
     "T": {
         name: "three",
-        connections: [ 0, 1, 2 ]
+        connections: [ 
+            [0, 1],
+            [1, 0],
+            [1, 2],
+            [2, 1],
+            [3, 2],
+            [2, 3],
+            [3, 0],
+            [0, 3]
+        ]
     }
 }

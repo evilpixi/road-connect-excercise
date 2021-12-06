@@ -54,19 +54,13 @@ class GameScene extends Phaser.Scene {
         this.pieces = []
         const lvlData = levelData[this.level - 1].elements
 
-        let maxX = lvlData[0].length - 1
-        let maxY = lvlData.length - 1
+        maxX = lvlData[0].length - 1
+        maxY = lvlData.length - 1
 
         const size = config.game.pieceSize
-        const neighborFromDirection = [
-            { x: 0, y: -1 },
-            { x: 1, y: 0 },
-            { x: 0, y: 1 },
-            { x: -1, y: 0 }
-        ]
+
 
         // create elements
-        let piecesMatrix = []
         for (let row = 0; row <= maxY; row++)
         {
             piecesMatrix[row] = []
@@ -98,10 +92,11 @@ class GameScene extends Phaser.Scene {
             for (let col = 0; col <= maxX; col++)
             {
                 let currentPiece = piecesMatrix[row][col]
-                console.log("--- looking for", row, col, " ---", currentPiece)
-
+                
                 for (let dir = 0; dir <= 3; dir++)
                 {
+                    if (!currentPiece) continue
+
                     let newRow = currentPiece.row + neighborFromDirection[dir].y
                     if (newRow > maxY || newRow < 0) continue
                     let newCol = currentPiece.col + neighborFromDirection[dir].x
@@ -125,6 +120,10 @@ class GameScene extends Phaser.Scene {
             this.piecesContainer.x = gWidth / 2 - (maxX - 1) * size
             this.piecesContainer.y = gHeight / 2 - (maxY - 1) * size
         }
+
+        for (let piece of this.pieces)
+        {
+        }
     }
 
 
@@ -136,30 +135,85 @@ class GameScene extends Phaser.Scene {
      */
     isVictory()
     {
-        return false
         let network = [this.pieces[0]]
-        let pivots = [this.pieces[0]]
+        let currentPivots = [this.pieces[0]]
 
+        let exit = false
+        let completed = false
         while (!exit)
         {
+            console.log(network)
+            let newPivots = []
             // pivots are pieces
-            for (let pivot of pivots)
+            for (let pivot of currentPivots)
             {
+                let pivotCurrentConns = pivot.currentConnections
+
                 // connections are tuples
-                let connections = PIECE_TYPES[pivot.type].connections
-                let effectiveConnections = []
-                for (let conn of connections)
+                for (let conn of pivotCurrentConns)
                 {
-                    // real is connection taking account the current direction
-                    let realFromPivot = [conn[0] + pivot.dir, conn[1] + pivot.dir]
-                    if (realFromPivot[0] > 3) realFromPivot[0] -= 4
-                    if (realFromPivot[1] > 3) realFromPivot[1] -= 4
+                    let dir = conn[0]
+
+                    let newRow = pivot.row + neighborFromDirection[dir].y
+                    if (newRow > maxY || newRow < 0) continue
+                    let newCol = pivot.col + neighborFromDirection[dir].x
+                    
+                    let newPiece = piecesMatrix[newRow][newCol]
+
+                    if (!newPiece) continue
+
+                    let connected = false
+                    for (let otherConn of newPiece.currentConnections)
+                    {
+                        if (otherConn[1] == neighborFromMirror[dir]) connected = true
+                    }
+
+                    // check for double curve
+
+
+                    if (connected) {
+                        if (network.includes(newPiece)) continue
+
+                        network.push(newPiece)
+
+                        if (newPivots.includes(newPiece)) continue
+                        newPivots.push(newPiece)
+                    }
                 }
             }
 
-            exit = true
+            if (newPivots.length == 0)
+            {
+                exit = true
+                continue
+            }
+
+            currentPivots = [...newPivots]
+
+            if (network.length == this.pieces.length)
+            {
+                exit = true
+                completed = true
+                continue
+            }
         }
 
-        return true
+        return completed
     }
 }
+
+const neighborFromDirection = [
+    { x: 0, y: -1 },
+    { x: 1, y: 0 },
+    { x: 0, y: 1 },
+    { x: -1, y: 0 }
+]
+const neighborFromMirror = [
+    2,
+    3,
+    0,
+    1
+]
+let piecesMatrix = []
+let maxX = 0
+let maxY = 0

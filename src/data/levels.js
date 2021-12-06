@@ -3,41 +3,30 @@ var levelData = [
         elements: 
         [
             ["c0", "c1"],
-            ["c1", "c2"]
+            ["c1", "  "]
         ]
     },
     {
         elements: 
         [
-            { type: "curve", x: 0, y: 0, dir: 0 },
-            { type: "curve", x: 0, y: 1, dir: 0 },
-            { type: "curve", x: 1, y: 0, dir: 0 },
-            { type: "curve", x: 2, y: 0, dir: 0 },
-            { type: "corner", x: 1, y: 1, dir: 3 },
-            { type: "rect", x: 2, y: 1, dir: 2 },
-            { type: "corner", x: 2, y: 2, dir: 2 },
+            ["c0", "|0", "|0", "T0"],
+            ["-0", "|1", "|0", "c3"]
         ]
     },
     {
         elements: 
         [
-            { type: "curve", x: 0, y: 0, dir: 0 },
-            { type: "curve", x: 0, y: 1, dir: 0 },
-            { type: "curve", x: 1, y: 0, dir: 0 },
-            { type: "curve", x: 1, y: 1, dir: 3 },
-            { type: "rect", x: 2, y: 1, dir: 2 },
-            { type: "corner", x: 2, y: 2, dir: 2 },
+            ["  ", "-0", "  "],
+            ["c1", "+0", "-0"],
+            ["  ", "-2", "  "]
         ]
     },
     {
         elements: 
         [
-            { type: "curve", x: 0, y: 0, dir: 0 },
-            { type: "curve", x: 0, y: 1, dir: 0 },
-            { type: "curve", x: 1, y: 0, dir: 0 },
-            { type: "curve", x: 1, y: 1, dir: 3 },
-            { type: "rect", x: 2, y: 1, dir: 2 },
-            { type: "corner", x: 2, y: 2, dir: 2 },
+            ["  ", "-0", "  "],
+            ["c1", "20", "c0"],
+            ["  ", "c2", "L0"]
         ]
     }
 ]
