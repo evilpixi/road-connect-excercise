@@ -1,6 +1,3 @@
-const gWidth = 480
-const gHeight = (window.innerHeight / window.innerWidth) * gWidth
-
 const game = new Phaser.Game({
     type: Phaser.WEBGL,
     scale: {
@@ -11,7 +8,8 @@ const game = new Phaser.Game({
         height: gHeight
     },
     backgroundColor: config.colors.background,
-    pixelArt: false,
+    //pixelArt: false,
+    roundPixels: true,
     scene: [
         BootScene,
         SplashScene,

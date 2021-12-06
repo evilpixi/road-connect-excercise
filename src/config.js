@@ -1,3 +1,6 @@
+const gWidth = 480
+const gHeight = (window.innerHeight / window.innerWidth) * gWidth
+
 var config = 
 {
     colors: 
@@ -6,6 +9,7 @@ var config =
         levelSelectionPanel: 0x69c8aa,
         levelSelectionShadow: 0x1b8f68     
     },
+
     texts:
     {
         bootScene: {
@@ -53,5 +57,10 @@ var config =
             },
             padding: { left: 5, bottom: 5 },
         }
+    },
+
+    game: {
+        pieceSize: gWidth * 0.25,
+        pieceCropSize: 0
     }
 }
