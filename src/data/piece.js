@@ -18,15 +18,27 @@ class Piece extends Phaser.GameObjects.Sprite
      * The default value is also 0.
      * @memberof Piece
      */
-    constructor(scene, x, y, type = PIECE_TYPES.single, pieceDirection = 0)
+    constructor(
+        scene, 
+        x, 
+        y, 
+        type = "c", 
+        pieceDirection = 0, 
+        row, 
+        col)
     {
-        super(scene, x, y, "road-" + type.name)
+        super(scene, x, y, "road-" + PIECE_TYPES[type].name)
         scene.add.existing(this)
 
         this.dir = pieceDirection
+        this.row = row
+        this.col = col
+        this.type = type
+
+        this.currentConnections = [...PIECE_TYPES[type].connections]
 
         // clockwise, 0 is up
-        this.neighbors = [null, null, null, null]
+        this.neighbors = []
 
         this.changeDirection(pieceDirection)
 
@@ -54,6 +66,27 @@ class Piece extends Phaser.GameObjects.Sprite
     }
 
 
+    
+    /**
+     * Upadtes the current possible connections
+     * based on current rotation.
+     *
+     * @memberof Piece
+     */
+    updateConnections()
+    {
+        for (let conn of this.currentConnections)
+        {
+            conn[0] += this.dir
+            if (conn[0] > 3) conn[0] -= 4
+
+            
+            conn[1] += this.dir
+            if (conn[1] > 3) conn[1] -= 4
+        }
+    }
+
+
     /**
      * Changes the current direction of the piece
      *
@@ -64,8 +97,11 @@ class Piece extends Phaser.GameObjects.Sprite
      */
     changeDirection(direction = 0)
     {
+        console.log("direction: " + direction)
         this.dir = direction
         this.angle = 90 * this.dir
+
+        this.updateConnections()
     }
 
     
@@ -84,6 +120,8 @@ class Piece extends Phaser.GameObjects.Sprite
         this.scene.sound.play("sfx-rotate")
 
         this.dir++
+
+        this.updateConnections()
 
         const newAngleCorrection = {
             1: 90,
@@ -115,31 +153,34 @@ class Piece extends Phaser.GameObjects.Sprite
  * Defines the different piece types
 */
 const PIECE_TYPES = {
-    "2curves": {
+    "2": {
         name: "2curves",
         connections: [ 0, 1, 2, 3 ]
     },
-    corner: {
+    "L": {
         name: "corner",
         connections: [ 1, 2 ]
     },
-    cross: {
+    "+": {
         name: "cross",
         connections: [ 0, 1, 2, 3 ]
     },
-    curve: {
+    "c": {
         name: "curve",
-        connections: [ 1, 2 ]
+        connections: [ 
+            [1, 2], 
+            [2, 1] 
+        ]
     },
-    rect: {
+    "|": {
         name: "rect",
         connections: [ 0, 2 ]
     },
-    single: {
+    "-": {
         name: "single",
         connections: [ 1 ]
     },
-    three: {
+    "T": {
         name: "three",
         connections: [ 0, 1, 2 ]
     }

@@ -2,10 +2,8 @@ var levelData = [
     {
         elements: 
         [
-            { type: "curve", x: 0, y: 0, dir: 0 },
-            { type: "curve", x: 0, y: 1, dir: 0 },
-            { type: "curve", x: 1, y: 0, dir: 0 },
-            { type: "curve", x: 1, y: 1, dir: 1 },
+            ["c0", "c1"],
+            ["c1", "c2"]
         ]
     },
     {
