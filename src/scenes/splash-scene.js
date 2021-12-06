@@ -4,11 +4,6 @@ class SplashScene extends Phaser.Scene {
         super("SplashScene")
     }
 
-    preload()
-    {
-
-    }
-
     create()
     {
         this.bgMusic = this.sound.add("music-bg")
@@ -17,6 +12,8 @@ class SplashScene extends Phaser.Scene {
         this.bgMusic.loop = true
         this.cameras.main.setBackgroundColor(config.colors.background)
 
+        
+        // --------------- tittle texts --------------- 
         const startDX = gWidth * 0.5
         this.roadText = this.add.text(
             0 - startDX,
@@ -25,6 +22,7 @@ class SplashScene extends Phaser.Scene {
             config.textStyles.splashTitle
         ).setOrigin(0.5)
 
+        
         this.connectText = this.add.text(
             gWidth + startDX,
             gHeight * 0.45,
@@ -48,19 +46,22 @@ class SplashScene extends Phaser.Scene {
             delay: duration * 0.25
         })
 
+
+        
+        // --------------- play button --------------- 
         let animCompleted = false
         this.playText = this.add.text(
             gWidth / 2, 
             gHeight * 0.7,
             config.texts.splashScene.start,
-            config.textStyles.splashSubtitle
+            config.textStyles.uiTitle
         ).setOrigin(0.5)
         .setScale(0)
 
         this.add.rectangle(
-            this.playText.x, 
-            this.playText.y,
-            this.playText.width + 10,
+            this.playText.x - 2, 
+            this.playText.y - 2,
+            this.playText.width + 20,
             this.playText.height + 10,
             config.colors.background,
             1)
@@ -68,26 +69,7 @@ class SplashScene extends Phaser.Scene {
         .setInteractive()
         .on("pointerdown", ()=> 
         {
-            this.sound.play("sfx-click")
-
-            this.tweens.add({
-                targets: this.playText,
-                scale: 1.3,
-                duration: 200,
-                ease: "Back",
-                onComplete: ()=> { 
-                    this.tweens.add({
-                        targets: this.playText,
-                        scale: 1,
-                        duration: 200,
-                        ease: "Sine",
-                        onComplete: ()=> {
-                            this.startNextScene()
-                        }
-                    })
-                
-                }
-            })
+            this.playPressHandler()
         })
 
         this.tweens.add({
@@ -100,12 +82,52 @@ class SplashScene extends Phaser.Scene {
         })
     }
 
-    startNextScene()
-    {
-        this.scene.launch("GameScene")
 
+    /**
+     * Animates the play button and then
+     * starts the next scene
+     *
+     * @memberof SplashScene
+     */
+    playPressHandler()
+    {
+        this.sound.play("sfx-click")
+
+        let tl = this.tweens.createTimeline()
+
+        tl.add({
+            targets: this.playText,
+            scale: 1.3,
+            duration: 200,
+            ease: "Back"
+        })
+        tl.add({
+            targets: this.playText,
+            scale: 1,
+            duration: 200,
+            ease: "Sine",
+            onComplete: ()=> { this.goToNextScene() }
+        })
+    }
+
+    
+    /**
+     * Destroys the scene elements and starts
+     * the new scene.
+     * It keeps this scene alive because:
+     * - we want to keep the music still running.
+     * - we want to keep the background color.
+     * - we never go back to this scene.
+     * @memberof SplashScene
+     */
+    goToNextScene()
+    {
         this.roadText.destroy()
         this.connectText.destroy()
         this.playText.destroy()
+
+        this.scene.launch("GameScene")
     }
+
+
 }

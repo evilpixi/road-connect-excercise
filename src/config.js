@@ -13,12 +13,15 @@ var config =
             title1: "Road",
             title2: "Connect",
             start: "Play"
+        },
+        levelSelectScene: {
+            title: "Level Selection"
         }
     },
 
     textStyles: 
     {
-        splashSubtitle: {
+        uiTitle: {
             fontFamily: "f22203",
             color: "#ffffff",
             fontSize: 50,
@@ -30,7 +33,7 @@ var config =
                 fill: true,
                 blur: 0
             },
-            padding: { left: 2, bottom: 2 },
+            padding: { left: 0, bottom: 0 },
         },
         splashTitle: {
             fontFamily: "nonstop",
@@ -41,7 +44,7 @@ var config =
                 offsetY: 4, 
                 color: '#1b8f68', 
                 fill: true,
-                blur: 1
+                blur: 0
             },
             padding: { left: 5, bottom: 5 },
         }
