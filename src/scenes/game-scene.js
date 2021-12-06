@@ -25,22 +25,66 @@ class GameScene extends Phaser.Scene {
 
         
         // --------------- text --------------- 
-        this.add.text(
+        this.title = this.add.text(
             gWidth/2,
             20,
             `${config.texts.gameScene.level} ${this.level}`,
             config.textStyles.uiTitle
         ).setOrigin(0.5, 0)
 
+        if (!data.fromSelection)
+        {
+            let x0 = this.title.x
+            this.title.x = gHeight + 500
+
+            this.tweens.add({
+                targets: this.title,
+                x: x0,
+                duration: 700,
+                delay: 100,
+                ease: "Power0",
+                onComplete: ()=> this.createElements()
+            })
+        }
+
         
         // --------------- gameplay elements --------------- 
-        this.createElements()
+        if (data.fromSelection) this.createElements()
 
 
         // --------------- check rotations --------------- 
         this.events.on("piecerotated", ()=> {
-            if (this.isVictory()) this.scene.start("EndScene")
+            if (this.isVictory()) {
+                this.playEndAnimation()
+                this.sound.play("sfx-level-complete")
+            }
         })
+    }
+
+    playEndAnimation()
+    {
+        let timeline = this.tweens.createTimeline()
+        timeline.add({
+            targets: this.title,
+            x: -500,
+            duration: 700,
+            delay: 100,
+            ease: "Power0"
+        })
+        timeline.add({
+            targets: this.pieces,
+            scale: 0,
+            duration: 400,
+            delay: 200,
+            onComplete: ()=> {
+                if (this.level == 4) this.scene.start("EndScene")
+                else this.scene.start("GameScene", {
+                    level: this.level + 1,
+                    fromSelection: false
+                })
+            }
+        })
+        timeline.play()
     }
 
     /**
@@ -86,6 +130,7 @@ class GameScene extends Phaser.Scene {
             }
         }
 
+        /*
         // create neighbors
         for (let row = 0; row <= maxY; row++)
         {
@@ -107,13 +152,13 @@ class GameScene extends Phaser.Scene {
                     currentPiece.neighbors.push(newPiece)
                 }
             }
-        }
+        }*/
 
         // center
         if (maxX % 2)
         {
-            this.piecesContainer.x = gWidth / 2 - (maxX - 0.5) * size
-            this.piecesContainer.y = gHeight / 2 - (maxY - 0.5) * size
+            this.piecesContainer.x = gWidth / 2 - (maxX) * size / 2
+            this.piecesContainer.y = gHeight / 2 - (maxY) * size / 2
         }
         else 
         {

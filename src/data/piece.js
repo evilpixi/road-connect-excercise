@@ -56,7 +56,7 @@ class Piece extends Phaser.GameObjects.Sprite
             duration: 400,
             scale: newScale,
             delay: t0,
-            onStart: ()=> { this.scene.sound.play("sfx-rotate") }
+            onStart: ()=> { this.scene.sound.play("sfx-appear") }
         })
 
         this.setInteractive()

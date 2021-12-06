@@ -63,7 +63,7 @@ var config =
     },
 
     game: {
-        pieceSize: gWidth * 0.25,
+        pieceSize: gWidth * 0.2,
         pieceCropSize: 0
     }
 }

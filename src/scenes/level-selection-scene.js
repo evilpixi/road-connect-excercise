@@ -92,13 +92,14 @@ class LevelSelectScene extends Phaser.Scene
             .setInteractive()
             .on("pointerdown", ()=> 
             {
+                this.sound.play("sfx-click")
                 button.setTexture("btn-red-press")
                 button.setDisplaySize(buttonSize, buttonSize)
             })
             .on("pointerup", ()=> {
                 button.setTexture("btn-red-normal")
                 button.setDisplaySize(buttonSize, buttonSize)
-                this.time.delayedCall(100, ()=> this.scene.start("GameScene", { level: i + 1 }))
+                this.time.delayedCall(100, ()=> this.scene.start("GameScene", { level: i + 1, fromSelection: true }))
             })
 
             container.add(button)
