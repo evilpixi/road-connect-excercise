@@ -7,9 +7,6 @@ class BootScene extends Phaser.Scene {
     preload()
     {
         // --------------- loadbar --------------- 
-        this.cameras.main.setBackgroundColor(0x23bf8e)
-
-
         const height = 40
         this.outBar = this.add.graphics()
         this.outBar.lineStyle(2, 0xffffff, 1)
@@ -99,6 +96,14 @@ class BootScene extends Phaser.Scene {
 
     create()
     {
-        this.scene.start("SplashScene")
+
+        this.scene.start("LevelSelectionScene")
+
+        bgMusic = this.sound.add("music-bg")
+        bgMusic.play()
+        bgMusic.volume = 0.5
+        bgMusic.loop = true
     }
 }
+
+var bgMusic

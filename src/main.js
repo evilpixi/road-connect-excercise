@@ -10,10 +10,12 @@ const game = new Phaser.Game({
         width: gWidth,
         height: gHeight
     },
+    backgroundColor: config.colors.background,
     pixelArt: false,
     scene: [
         BootScene,
         SplashScene,
+        LevelSelectScene,
         GameScene
     ]
 })

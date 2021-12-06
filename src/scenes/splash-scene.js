@@ -6,10 +6,6 @@ class SplashScene extends Phaser.Scene {
 
     create()
     {
-        this.bgMusic = this.sound.add("music-bg")
-        this.bgMusic.play()
-        this.bgMusic.volume = 0.5
-        this.bgMusic.loop = true
         this.cameras.main.setBackgroundColor(config.colors.background)
 
         
@@ -48,8 +44,7 @@ class SplashScene extends Phaser.Scene {
 
 
         
-        // --------------- play button --------------- 
-        let animCompleted = false
+        // --------------- play button ---------------
         this.playText = this.add.text(
             gWidth / 2, 
             gHeight * 0.7,
@@ -61,24 +56,20 @@ class SplashScene extends Phaser.Scene {
         this.add.rectangle(
             this.playText.x - 2, 
             this.playText.y - 2,
-            this.playText.width + 20,
-            this.playText.height + 10,
-            config.colors.background,
-            1)
-        .setDepth(-1)
+            this.playText.width + 30,
+            this.playText.height + 20,
+            0xff0000,//config.colors.background,
+            0)
+        .setDepth(1)
         .setInteractive()
-        .on("pointerdown", ()=> 
-        {
-            this.playPressHandler()
-        })
+        .once("pointerdown", ()=> this.playPressHandler())
 
         this.tweens.add({
             targets: this.playText,
             scale: 1,
             delay: duration * 1.5,
             duration: duration,
-            ease: "Power3",
-            onComplete: ()=> { animCompleted = true }
+            ease: "Power3"
         })
     }
 
@@ -93,41 +84,22 @@ class SplashScene extends Phaser.Scene {
     {
         this.sound.play("sfx-click")
 
-        let tl = this.tweens.createTimeline()
+        let timeline = this.tweens.createTimeline()
 
-        tl.add({
+        timeline.add({
             targets: this.playText,
             scale: 1.3,
             duration: 200,
             ease: "Back"
         })
-        tl.add({
+        timeline.add({
             targets: this.playText,
             scale: 1,
             duration: 200,
             ease: "Sine",
-            onComplete: ()=> { this.goToNextScene() }
+            onComplete: ()=> this.scene.start("LevelSelectionScene")
         })
+
+        timeline.play()
     }
-
-    
-    /**
-     * Destroys the scene elements and starts
-     * the new scene.
-     * It keeps this scene alive because:
-     * - we want to keep the music still running.
-     * - we want to keep the background color.
-     * - we never go back to this scene.
-     * @memberof SplashScene
-     */
-    goToNextScene()
-    {
-        this.roadText.destroy()
-        this.connectText.destroy()
-        this.playText.destroy()
-
-        this.scene.launch("GameScene")
-    }
-
-
 }

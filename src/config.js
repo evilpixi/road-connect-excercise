@@ -2,7 +2,9 @@ var config =
 {
     colors: 
     {
-        background: 0x23bf8e
+        background: 0x23bf8e,
+        levelSelectionPanel: 0x69c8aa,
+        levelSelectionShadow: 0x1b8f68     
     },
     texts:
     {
@@ -15,7 +17,10 @@ var config =
             start: "Play"
         },
         levelSelectScene: {
-            title: "Level Selection"
+            title: "Level Select"
+        },
+        gameScene: {
+            level: "Level"
         }
     },
 
